@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -65,6 +66,21 @@ namespace Steamworks.Ugc
 		public float Score => details.Score;
 
 		/// <summary>
+		/// The file size of the primary file. (bytes)
+		/// </summary>
+		public int FileSize => details.FileSize;
+
+		/// <summary>
+		/// The file size of the preview file. (bytes)
+		/// </summary>
+		public int PreviewFileSize => details.PreviewFileSize;
+
+		/// <summary>
+		/// The type of the item.
+		/// </summary>
+		public WorkshopFileType FileType => details.FileType;
+
+		/// <summary>
 		/// Time when the published item was created
 		/// </summary>
 		public DateTime Created => Epoch.ToDateTime( details.TimeCreated );
@@ -73,6 +89,11 @@ namespace Steamworks.Ugc
 		/// Time when the published item was last updated
 		/// </summary>
 		public DateTime Updated => Epoch.ToDateTime( details.TimeUpdated );
+
+		/// <summary>
+		/// The visibility of the item.
+		/// </summary>
+		public RemoteStoragePublishedFileVisibility Visibility => details.Visibility;
 
 		/// <summary>
 		/// True if this is publically visible
@@ -88,7 +109,13 @@ namespace Steamworks.Ugc
 		/// True if this is only visible to the creator
 		/// </summary>
 		public bool IsPrivate => details.Visibility == RemoteStoragePublishedFileVisibility.Private;
-		
+
+		/// <summary>
+		/// True if this is visible to everyone, but will not be returned in any global queries.
+		/// Will also not be returned in any user lists unless the caller is the creator or a subscriber.
+		/// </summary>
+		public bool IsUnlisted => details.Visibility == RemoteStoragePublishedFileVisibility.Unlisted;
+
 		/// <summary>
 		/// True if this item has been banned
 		/// </summary>
@@ -155,7 +182,7 @@ namespace Steamworks.Ugc
 			get
 			{
 				if ( !NeedsUpdate )
-					return SizeBytes;
+					return InstalledSizeBytes;
 
 				ulong downloaded = 0;
 				ulong total = 0;
@@ -174,7 +201,7 @@ namespace Steamworks.Ugc
 			get
 			{
 				if ( !NeedsUpdate )
-					return SizeBytes;
+					return InstalledSizeBytes;
 
 				ulong downloaded = 0;
 				ulong total = 0;
@@ -188,7 +215,7 @@ namespace Steamworks.Ugc
 		/// <summary>
 		/// If we're installed, how big is the install
 		/// </summary>
-		public long SizeBytes
+		public long InstalledSizeBytes
 		{
 			get
 			{

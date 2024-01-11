@@ -762,11 +762,11 @@ namespace Steamworks
 		IOS = 64,
 		All = -1,
 	}
-	
+
 	//
 	// ERemoteStoragePublishedFileVisibility
 	//
-	internal enum RemoteStoragePublishedFileVisibility : int
+	public enum RemoteStoragePublishedFileVisibility : int
 	{
 		Public = 0,
 		FriendsOnly = 1,
@@ -777,7 +777,7 @@ namespace Steamworks
 	//
 	// EWorkshopFileType
 	//
-	internal enum WorkshopFileType : int
+	public enum WorkshopFileType : int
 	{
 		First = 0,
 		Community = 0,

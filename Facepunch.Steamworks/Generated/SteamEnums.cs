@@ -2024,7 +2024,10 @@ namespace Steamworks
 		UsableInGame = 10,
 		ControllerBindings = 11,
 		GameManagedItems = 12,
-		All = -1,
+		/// <summary>
+		/// @note: will only be valid for CreateQueryUserUGCRequest requests
+		/// </summary>
+		All = ~0,
 	}
 	
 	//

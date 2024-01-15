@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -251,6 +251,24 @@ namespace Steamworks.Ugc
 					return 0;
 
 				return 1;
+			}
+		}
+
+		/// <summary>
+		/// Returns the time when the workshop item was last updated. (The updated time of the installed item.)
+		/// API doc: https://partner.steamgames.com/doc/api/ISteamUGC#GetItemInstallInfo
+		/// </summary>
+		public DateTime punTimeStamp
+		{
+			get
+			{
+				ulong size = 0;
+				uint ts = 0;
+
+				if ( !SteamUGC.Internal.GetItemInstallInfo( Id, ref size, out var strVal, ref ts ) )
+					return Epoch.ToDateTime(0);
+
+				return Epoch.ToDateTime(ts);
 			}
 		}
 

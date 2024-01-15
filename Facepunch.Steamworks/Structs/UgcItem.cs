@@ -151,6 +151,40 @@ namespace Steamworks.Ugc
 		public bool IsSubscribed => (State & ItemState.Subscribed) == ItemState.Subscribed;
 		public bool NeedsUpdate => (State & ItemState.NeedsUpdate) == ItemState.NeedsUpdate;
 
+		/// <summary>
+		/// Return the installed item needs to update or not.
+		/// This property is more responsive (almost immediate) than NeedsUpdate which has larger delay (> 5 mins) from Steamworks API.
+		/// </summary>
+		public bool NeedsUpdateResponsive
+		{
+			get
+			{
+				if (this.NeedsUpdate)
+				{
+					return true;
+				}
+
+				ulong punSizeOnDisk = 0;
+				uint punTimestamp = 0;
+				if ( !SteamUGC.Internal.GetItemInstallInfo( Id, ref punSizeOnDisk, out _, ref punTimestamp ) )
+				{
+					return true;
+				}
+
+				if ((int)punSizeOnDisk != details.FileSize)
+				{
+					return true;
+				}
+
+				if (punTimestamp != details.TimeUpdated)
+				{
+					return true;
+				}
+
+				return false;
+			}
+		}
+
 		public string Directory 
 		{
 			get

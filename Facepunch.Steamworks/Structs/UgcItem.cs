@@ -324,6 +324,22 @@ namespace Steamworks.Ugc
 			}
 		}
 
+		public static async Task<Item?> GetMetaDataAsync( PublishedFileId id )
+		{
+			var file = await Steamworks.Ugc.Query.All
+											.WithFileId( id )
+											.WithMetadata( true )
+											.GetPageAsync( 1 );
+
+			if ( !file.HasValue ) return null;
+			using ( file.Value )
+			{
+				if ( file.Value.ResultCount == 0 ) return null;
+
+				return file.Value.Entries.First();
+			}
+		}
+
 		internal static Item From( SteamUGCDetails_t details )
 		{
 			var d = new Item

@@ -21,6 +21,11 @@ namespace Steamworks
 
 		internal const int STEAM_CONTROLLER_MAX_COUNT = 16;
 
+		public static void Init(bool bExplicitlyCallRunFrame)
+		{
+			Internal.Init(bExplicitlyCallRunFrame);
+		}
+
 
 		/// <summary>
 		/// You shouldn't really need to call this because it gets called by <see cref="SteamClient.RunCallbacks"/>

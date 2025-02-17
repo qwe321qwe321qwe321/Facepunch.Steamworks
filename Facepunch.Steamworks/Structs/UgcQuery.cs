@@ -105,6 +105,9 @@ namespace Steamworks.Ugc
 		}
 		#endregion
 
+		public Query ForConsumerAppId( AppId appId ) { consumerApp = appId; return this; }
+		public Query ForCreatorAppId( AppId appId ) {  creatorApp = appId; return this; }
+
 		public async Task<ResultPage?> GetPageAsync( int page )
 		{
 			if ( page <= 0 ) throw new System.Exception( "page should be > 0" );
